@@ -1,5 +1,8 @@
 <template>
   <view>
+    <!-- 放大镜 -->
+    <my-search @click="gotoSearch"></my-search>
+    <!-- 分类 -->
     <view class="scroll-view-container">
       <!-- 左侧的滚动视图区域 -->
       <scroll-view class="left-scroll-view" scroll-y :style="{height: wh + 'px'}">
@@ -43,7 +46,7 @@
       // 1. 获取屏幕高度
       async getSysInfo() {
         const sysInfo = await uni.getSystemInfo()
-        this.wh = sysInfo[1].windowHeight
+        this.wh = sysInfo[1].windowHeight-50
       },
       // 2. 获取左侧一级分类列表数据
       async getcateList() {
@@ -65,8 +68,13 @@
         uni.navigateTo({
           url:'/subpkg/goods_list/goods_list?cid='+cate3.cat_id
         })
+      },
+      // 5. 点击搜索框到搜索页面
+      gotoSearch(){
+        uni.navigateTo({
+          url: '/subpkg/search/search',
+        });
       }
-      
     },
     onLoad() {
       // 1. 获取屏幕高度
