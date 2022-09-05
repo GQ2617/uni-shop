@@ -9,7 +9,7 @@
     <!-- 商品信息区域 -->
     <view class="goods-info-box">
       <!-- 商品价格 -->
-      <view class="price">${{goods_info.goods_price}}</view>
+      <view class="price">￥{{goods_info.goods_price}}</view>
       <!-- 信息主体区域 -->
       <view class="goods-info-body">
         <!-- 名称 -->
@@ -21,7 +21,7 @@
         </view>
       </view>
       <!-- 运费 -->
-      <view class="yf">快递,免运费</view>
+      <view class="yf">快递,免运费--{{cart.length}}</view>
     </view>
 
     <!-- 详细信息 -->
@@ -40,6 +40,7 @@
 </template>
 
 <script>
+  import {mapState,mapMutations,mapGetters} from 'vuex'
   export default {
     data() {
       return {
@@ -95,8 +96,38 @@
           })
         }
       },
+      // 获取仓库中加入购物车方法
+      ...mapMutations('cart',['addToCart']),
       // 4. 加入购物车
-      buttonClick(){}
+      buttonClick(e){
+        if(e.content.text==='加入购物车'){
+          const goods = {
+            goods_id : this.goods_info.goods_id,
+            goods_name : this.goods_info.goods_name,
+            goods_price : this.goods_info.goods_price,
+            goods_count : 1,
+            goods_small_logo : this.goods_info.goods_small_logo,
+            goods_state : true
+          }
+          this.addToCart(goods)
+          uni.$showMsg('已加入购物车','success')
+        }
+      }
+    },
+    computed:{
+      ...mapState('cart',['cart']),
+      ...mapGetters('cart',['total'])
+    },
+    watch:{
+      total:{
+        handler(newValue){
+          const findResult = this.options.find(item=>item.text === '购物车')
+          if(findResult){
+            findResult.info = newValue
+          }
+        },
+        immediate:true
+      }
     },
     onLoad(options) {
       const goods_id = options.goods_id

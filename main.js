@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import App from './App'
 
+import store from './store/store.js'
+
 Vue.config.productionTip = false
 
 // 1. 导入网络请求的包
@@ -20,10 +22,10 @@ $http.afterRequest = function(options) {
 }
 
 // 2. 封装showMsg()方法
-uni.$showMsg=function(title="数据加载失败！",duration=1500,icon="error"){
+uni.$showMsg=function(title="数据加载失败！",icon="error"){
   uni.showToast({
     title,
-    duration,
+    duration:1500,
     icon
   })
 }
@@ -32,6 +34,7 @@ uni.$showMsg=function(title="数据加载失败！",duration=1500,icon="error"){
 App.mpType = 'app'
 
 const app = new Vue({
-  ...App
+  ...App,
+  store
 })
 app.$mount()

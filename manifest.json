@@ -45,8 +45,9 @@
         "appid" : "wxd003e0e862f42f26",
         "setting" : {
             "urlCheck" : true,
-            "checkSiteMap":false
+            "checkSiteMap" : false
         },
-        "permission" : {}
+        "permission" : {},
+         "requiredPrivateInfos": ["getLocation", "chooseLocation", "chooseAddress"]
     }
 }
